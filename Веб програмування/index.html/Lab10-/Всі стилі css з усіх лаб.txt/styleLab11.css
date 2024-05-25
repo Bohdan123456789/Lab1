@@ -1,0 +1,31 @@
+p {text-align: justify;
+margin-left: 5%; margin-right: 5%;
+font-style: italic;
+font-size:17px;
+}
+h1 {text-align:center;
+    color:rgb(25, 0, 255);
+}
+    p {
+    background-image: url(img/Ананас.jpg); 
+    background-size: 100px 100px;
+    width:93%;
+    float: 90%;
+    color:rgb(88, 3, 3);
+}
+.ntt {color:rgb(255, 0, 0)
+}
+A:link {color:rgb(200, 255, 0);
+text-decoration: none;
+}
+.mio {
+    width:200px;
+    height:150px;
+    float:left;
+}
+
+
+
+
+
+
