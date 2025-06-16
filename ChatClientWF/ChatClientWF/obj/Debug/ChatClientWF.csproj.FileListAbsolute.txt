@@ -1,0 +1,9 @@
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\bin\Debug\ChatClientWF.exe.config
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\bin\Debug\ChatClientWF.exe
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\bin\Debug\ChatClientWF.pdb
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\obj\Debug\ChatClientWF.csproj.AssemblyReference.cache
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\obj\Debug\ChatClientWF.Properties.Resources.resources
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\obj\Debug\ChatClientWF.csproj.GenerateResource.cache
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\obj\Debug\ChatClientWF.csproj.CoreCompileInputs.cache
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\obj\Debug\ChatClientWF.exe
+C:\Users\kkorz\OneDrive\Рабочий стол\ChatClientWF\ChatClientWF\obj\Debug\ChatClientWF.pdb
