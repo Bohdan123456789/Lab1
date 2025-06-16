@@ -1,0 +1,202 @@
+﻿<!-- MainWindow.xaml -->
+<Window x:Class="RegistrationFormApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Генератор Бланків Реєстрації" Height="750" Width="1000"
+        FontFamily="Inter">
+    <Window.Resources>
+        <!-- Допоміжний стиль для ToggleButton в ComboBox -->
+        <Style x:Key="ComboBoxToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="Transparent">
+                            <Path x:Name="Arrow"
+                                  Data="M 0 0 L 4 4 L 8 0 Z"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Fill="{TemplateBinding Foreground}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Загальний стиль для кнопок -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#005B9F"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для Label -->
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Стиль для ComboBox з ControlTemplate для CornerRadius -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <!-- CornerRadius тут -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Grid.Column="0" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <ToggleButton Grid.Column="1"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{StaticResource ComboBoxToggleButtonStyle}"/>
+                                <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"
+                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                       StaysOpen="False" Focusable="False">
+                                    <Border x:Name="DropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+                                            BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}">
+                                        <ScrollViewer x:Name="ScrollViewer">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для RichTextBox з ControlTemplate для CornerRadius -->
+        <Style TargetType="RichTextBox">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RichTextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <!-- CornerRadius тут -->
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Ліва панель: Вибір шаблону та введення даних -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <Label Content="Виберіть шаблон:"/>
+            <ComboBox x:Name="cmbTemplates" SelectionChanged="CmbTemplates_SelectionChanged">
+                <ComboBoxItem Content="Шаблон 1: Реєстрація учасника"/>
+                <ComboBoxItem Content="Шаблон 2: Замовлення послуги"/>
+                <ComboBoxItem Content="Шаблон 3: Зворотній зв'язок"/>
+            </ComboBox>
+
+            <Label Content="Дані для заповнення:"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Height="200">
+                <StackPanel>
+                    <Label Content="ПІБ:"/>
+                    <TextBox x:Name="txtFullName" ToolTip="Поле для ПІБ"/>
+                    <Label Content="Дата:"/>
+                    <DatePicker x:Name="dpDate" SelectedDateFormat="Short" Margin="5"/>
+                    <Label Content="Email:"/>
+                    <TextBox x:Name="txtEmail" ToolTip="Поле для Email"/>
+                    <Label Content="Телефон:"/>
+                    <TextBox x:Name="txtPhone" ToolTip="Поле для телефону"/>
+                    <Label Content="Назва компанії:"/>
+                    <TextBox x:Name="txtCompany" ToolTip="Поле для назви компанії"/>
+                    <Label Content="Опис запиту:"/>
+                    <TextBox x:Name="txtDescription" AcceptsReturn="True" TextWrapping="Wrap" Height="60" ToolTip="Детальний опис запиту/повідомлення"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Button Content="Створити Документ" Style="{StaticResource PrimaryButton}" Click="CreateDocument_Click" Margin="0,10,0,5"/>
+            <Button Content="Зберегти Документ" Style="{StaticResource PrimaryButton}" Click="SaveDocument_Click" Background="#2196F3" BorderBrush="#1976D2"/>
+        </StackPanel>
+
+        <!-- Права панель: Перегляд документа та функції пошуку/заміни -->
+        <DockPanel Grid.Column="1" Margin="10">
+            <Grid DockPanel.Dock="Top" Height="Auto" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Пошук:" Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtSearch" Grid.Column="1" Width="150" Margin="0,0,5,0"/>
+                <Button Content="Знайти" Grid.Column="2" Width="80" Style="{StaticResource PrimaryButton}" Click="Find_Click"/>
+                <Button Content="Замінити" Grid.Column="3" Width="80" Style="{StaticResource PrimaryButton}" Click="Replace_Click" Background="#FFC107" BorderBrush="#FFA000"/>
+            </Grid>
+
+            <!-- RichTextBox для перегляду документа, IsReadOnly="True" за замовчуванням -->
+            <RichTextBox x:Name="rtbDocument" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        </DockPanel>
+    </Grid>
+</Window>
