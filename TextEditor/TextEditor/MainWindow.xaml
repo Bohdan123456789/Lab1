@@ -1,0 +1,75 @@
+﻿<!-- MainWindow.xaml -->
+<Window x:Class="TextEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Мій Текстовий Редактор" Height="600" Width="800">
+    <DockPanel>
+        <!-- Меню додатку -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новий" Click="New_Click"/>
+                <MenuItem Header="Відкрити" Click="Open_Click"/>
+                <MenuItem Header="Зберегти" Click="Save_Click"/>
+                <MenuItem Header="Зберегти як..." Click="SaveAs_Click"/>
+                <Separator/>
+                <MenuItem Header="Вихід" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Правка">
+                <MenuItem Header="Копіювати" Command="Copy"/>
+                <MenuItem Header="Вирізати" Command="Cut"/>
+                <MenuItem Header="Вставити" Command="Paste"/>
+            </MenuItem>
+            <MenuItem Header="Формат">
+                <MenuItem Header="Жирний" Click="ToggleBold_Click"/>
+                <MenuItem Header="Курсив" Click="ToggleItalic_Click"/>
+                <MenuItem Header="Підкреслений" Click="ToggleUnderline_Click"/>
+                <Separator/>
+                <MenuItem Header="Вирівняти ліворуч" Click="AlignLeft_Click"/>
+                <MenuItem Header="Вирівняти по центру" Click="AlignCenter_Click"/>
+                <MenuItem Header="Вирівняти праворуч" Click="AlignRight_Click"/>
+                <MenuItem Header="Вирівняти по ширині" Click="AlignJustify_Click"/>
+            </MenuItem>
+            <MenuItem Header="Інструменти">
+                <MenuItem Header="Вставити зображення" Click="InsertImage_Click"/>
+                <MenuItem Header="Мова інтерфейсу">
+                    <!-- Додамо обробники для зміни мови, тут лише приклад -->
+                    <MenuItem Header="Українська" Click="ChangeLanguage_Click" Tag="uk-UA"/>
+                    <MenuItem Header="English" Click="ChangeLanguage_Click" Tag="en-US"/>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!-- Панель інструментів для форматування -->
+        <ToolBar DockPanel.Dock="Top">
+            <ComboBox x:Name="cmbFontFamily" Width="120" SelectionChanged="CmbFontFamily_SelectionChanged" ToolTip="Вибір шрифту"/>
+            <ComboBox x:Name="cmbFontSize" Width="70" SelectionChanged="CmbFontSize_SelectionChanged" ToolTip="Розмір шрифту"/>
+            <Separator/>
+            <ToggleButton x:Name="btnBold" Command="EditingCommands.ToggleBold" Content="Ж" FontWeight="Bold" ToolTip="Жирний (Ctrl+B)"/>
+            <ToggleButton x:Name="btnItalic" Command="EditingCommands.ToggleItalic" Content="К" FontStyle="Italic" ToolTip="Курсив (Ctrl+I)"/>
+            <!-- Виправлення: TextDecorations тепер застосовується до TextBlock всередині ToggleButton -->
+            <ToggleButton x:Name="btnUnderline" Command="EditingCommands.ToggleUnderline" ToolTip="Підкреслений (Ctrl+U)">
+                <TextBlock Text="П" TextDecorations="Underline"/>
+            </ToggleButton>
+            <Separator/>
+            <RadioButton x:Name="rbAlignLeft" GroupName="Alignment" Click="AlignLeft_Click" ToolTip="Вирівняти ліворуч">
+                <Path Data="M 0,0 V 10 H 20 V 0 Z M 0,15 V 25 H 15 V 15 Z M 0,30 V 40 H 20 V 30 Z" Stretch="Fill" Fill="Black" Width="16" Height="16"/>
+            </RadioButton>
+            <RadioButton x:Name="rbAlignCenter" GroupName="Alignment" Click="AlignCenter_Click" ToolTip="Вирівняти по центру">
+                <Path Data="M 0,0 V 10 H 20 V 0 Z M 2.5,15 V 25 H 17.5 V 15 Z M 0,30 V 40 H 20 V 30 Z" Stretch="Fill" Fill="Black" Width="16" Height="16"/>
+            </RadioButton>
+            <RadioButton x:Name="rbAlignRight" GroupName="Alignment" Click="AlignRight_Click" ToolTip="Вирівняти праворуч">
+                <Path Data="M 0,0 V 10 H 20 V 0 Z M 5,15 V 25 H 20 V 15 Z M 0,30 V 40 H 20 V 30 Z" Stretch="Fill" Fill="Black" Width="16" Height="16"/>
+            </RadioButton>
+            <RadioButton x:Name="rbAlignJustify" GroupName="Alignment" Click="AlignJustify_Click" ToolTip="Вирівняти по ширині">
+                <Path Data="M 0,0 V 10 H 20 V 0 Z M 0,15 V 25 H 20 V 15 Z M 0,30 V 40 H 20 V 30 Z" Stretch="Fill" Fill="Black" Width="16" Height="16"/>
+            </RadioButton>
+            <Separator/>
+            <Button Content="Вставити Зображення" Click="InsertImage_Click" ToolTip="Вставити зображення з файлу"/>
+        </ToolBar>
+
+        <!-- Область з вкладками для документів -->
+        <TabControl x:Name="tabControlDocuments" SelectionChanged="TabControlDocuments_SelectionChanged">
+            <!-- Вкладки з документами будуть додаватися сюди динамічно -->
+        </TabControl>
+    </DockPanel>
+</Window>
