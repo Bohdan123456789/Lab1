@@ -1,0 +1,114 @@
+﻿<!-- ProcessInfoDialog.xaml -->
+<Window x:Class="ProcessManagerApp.ProcessInfoDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Деталі процесу" Height="500" Width="700"
+        FontFamily="Inter"
+        WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <!-- Стиль для ModernButtonStyle -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#005B9F"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для ListViewHeader (стовпці) -->
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="#F0F0F0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="5 3"/>
+            <Setter Property="BorderBrush" Value="#D0D0D0"/>
+            <Setter Property="BorderThickness" Value="0 0 1 1"/>
+        </Style>
+
+        <!-- Стиль для ListView (рядки) -->
+        <Style TargetType="ListViewItem">
+            <Setter Property="Padding" Value="5 2"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#D9EEF7"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#EAF5FB"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Загальна інформація про процес -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,0,5">Інформація про процес:</TextBlock>
+            <TextBlock x:Name="ProcessNameTextBlock" FontSize="14" FontWeight="SemiBold"/>
+            <TextBlock x:Name="ProcessIdTextBlock"/>
+            <TextBlock x:Name="ProcessPathTextBlock"/>
+            <TextBlock x:Name="ProcessMemoryTextBlock"/>
+            <TextBlock x:Name="ProcessStartTimeTextBlock"/>
+        </StackPanel>
+
+        <!-- Інформація про потоки та модулі -->
+        <TabControl Grid.Row="1" Margin="0,10,0,0">
+            <TabItem Header="Потоки">
+                <ListView x:Name="ThreadsListView">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID Потоку" Width="100" DisplayMemberBinding="{Binding Id}"/>
+                            <GridViewColumn Header="Статус" Width="120" DisplayMemberBinding="{Binding ThreadState}"/>
+                            <GridViewColumn Header="Пріоритет" Width="100" DisplayMemberBinding="{Binding CurrentPriority}"/>
+                            <GridViewColumn Header="Час ЦП" Width="150" DisplayMemberBinding="{Binding TotalProcessorTime}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Модулі">
+                <ListView x:Name="ModulesListView">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Ім'я модуля" Width="200" DisplayMemberBinding="{Binding ModuleName}"/>
+                            <GridViewColumn Header="Розмір пам'яті (Байт)" Width="150" DisplayMemberBinding="{Binding ModuleMemorySize}"/>
+                            <GridViewColumn Header="Шлях до файлу" Width="300" DisplayMemberBinding="{Binding FileName}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
+
+        <!-- Кнопка закриття -->
+        <Button Grid.Row="3" Content="Закрити" Style="{StaticResource ModernButtonStyle}" HorizontalAlignment="Right" Click="Close_Click"/>
+    </Grid>
+</Window>
