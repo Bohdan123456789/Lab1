@@ -1,0 +1,13 @@
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\bin\Debug\HardwareInfoWinFormsApp.exe.config
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\bin\Debug\HardwareInfoWinFormsApp.exe
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\bin\Debug\HardwareInfoWinFormsApp.pdb
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\bin\Debug\System.CodeDom.dll
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\bin\Debug\System.CodeDom.xml
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\HardwareInfoWinFormsApp.csproj.AssemblyReference.cache
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\HardwareInfoWinFormsApp.Form1.resources
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\HardwareInfoWinFormsApp.Properties.Resources.resources
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\HardwareInfoWinFormsApp.csproj.GenerateResource.cache
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\HardwareInfoWinFormsApp.csproj.CoreCompileInputs.cache
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\Hardware.AFBDA527.Up2Date
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\HardwareInfoWinFormsApp.exe
+C:\Users\kkorz\OneDrive\Рабочий стол\HardwareInfoWinFormsApp\HardwareInfoWinFormsApp\obj\Debug\HardwareInfoWinFormsApp.pdb
