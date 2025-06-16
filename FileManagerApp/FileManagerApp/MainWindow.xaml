@@ -1,0 +1,199 @@
+﻿<!-- MainWindow.xaml -->
+<Window x:Class="FileManagerApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Файловий Менеджер" Height="750" Width="1200"
+        FontFamily="Inter">
+    <Window.Resources>
+        <!-- Загальний стиль для кнопок -->
+        <Style x:Key="CommonButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8 4"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#005B9F"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для Label -->
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <!-- Added missing closing tag for Style -->
+
+        <!-- Стиль для TreeViewItem -->
+        <Style TargetType="TreeViewItem">
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+
+        <!-- Стиль для ListViewItem -->
+        <Style TargetType="ListViewItem">
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Row 0: Navigation, Filters, and New Buttons -->
+            <RowDefinition Height="*"/>
+            <!-- Row 1: Main content (TreeView, ListView) -->
+            <RowDefinition Height="200"/>
+            <!-- Row 2: Properties/Preview -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <!-- Col 0: TreeView (disks/dirs) -->
+            <ColumnDefinition Width="*"/>
+            <!-- Col 1: ListView (files) -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Верхня панель: Навігація, фільтрація та кнопки операцій -->
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="5">
+            <!-- Панель навігації та фільтрації -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,0,0,5">
+                <Button Content="Назад" Style="{StaticResource CommonButtonStyle}" Click="NavigateBack_Click" Margin="0,0,5,0"/>
+                <Button Content="Вгору" Style="{StaticResource CommonButtonStyle}" Click="NavigateUp_Click" Margin="0,0,10,0"/>
+                <Label Content="Поточний шлях:"/>
+                <TextBox x:Name="txtCurrentPath" IsReadOnly="True" Width="400" TextWrapping="NoWrap" HorizontalAlignment="Stretch"/>
+                <Label Content="Фільтр файлів:"/>
+                <TextBox x:Name="txtFileNameFilter" Width="150" TextChanged="FilterFiles_TextChanged"/>
+                <Label Content="Фільтр тек:"/>
+                <TextBox x:Name="txtDirectoryNameFilter" Width="150" TextChanged="FilterDirectories_TextChanged"/>
+            </StackPanel>
+
+            <!-- Кнопки операцій з файлами та папками -->
+            <WrapPanel Margin="0,5,0,0" HorizontalAlignment="Left">
+                <Button Content="Створити папку" Style="{StaticResource CommonButtonStyle}" Click="CreateFolder_Click"/>
+                <Button Content="Створити файл" Style="{StaticResource CommonButtonStyle}" Click="CreateFile_Click"/>
+                <Button Content="Перейменувати" Style="{StaticResource CommonButtonStyle}" Click="Rename_Click"/>
+                <Button Content="Копіювати" Style="{StaticResource CommonButtonStyle}" Click="Copy_Click"/>
+                <Button Content="Перемістити" Style="{StaticResource CommonButtonStyle}" Click="Move_Click"/>
+                <Button Content="Видалити" Style="{StaticResource CommonButtonStyle}" Click="Delete_Click" Background="#E53935" BorderBrush="#C62828"/>
+                <Separator Width="10"/>
+                <Button Content="Архівувати (ZIP)" Style="{StaticResource CommonButtonStyle}" Click="Archive_Click" Background="#FBC02D" BorderBrush="#F9A825"/>
+                <Button Content="Розпакувати (ZIP)" Style="{StaticResource CommonButtonStyle}" Click="Extract_Click" Background="#FBC02D" BorderBrush="#F9A825"/>
+            </WrapPanel>
+        </StackPanel>
+
+        <!-- TreeView для дисків та каталогів (Ліва панель) -->
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="0 0 1 0" Padding="5">
+            <TreeView x:Name="treeViewFolders" BorderThickness="0"
+                      ItemsSource="{Binding}"
+                      SelectedItemChanged="TreeViewFolders_SelectedItemChanged">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Примітка: Шляхи до іконок "pack://application:,,,/Icons/..." вимагають,
+                                 щоб у вашому проекті була папка "Icons" з відповідними .png файлами,
+                                 і їх "Build Action" був встановлений на "Resource". -->
+                            <Image Source="{Binding IconSource}" Width="16" Height="16" Margin="0,0,5,0"/>
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Border>
+
+        <!-- ListView для файлів (Права панель) -->
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="#E0E0E0" Padding="5">
+            <ListView x:Name="listViewFiles" BorderThickness="0" SelectionChanged="ListViewFiles_SelectionChanged" MouseDoubleClick="ListViewFiles_MouseDoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Назва" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Тип" Width="80" DisplayMemberBinding="{Binding Type}"/>
+                        <GridViewColumn Header="Розмір" Width="100" DisplayMemberBinding="{Binding Size}"/>
+                        <GridViewColumn Header="Дата зміни" Width="150" DisplayMemberBinding="{Binding LastWriteTime}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- Панель властивостей та перегляду (Нижня частина) -->
+        <Border Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="#E0E0E0" BorderThickness="0 1 0 0" Padding="5" Background="#F8F8F8">
+            <TabControl x:Name="tabControlPreview">
+                <TabItem Header="Властивості">
+                    <ScrollViewer>
+                        <StackPanel Margin="10">
+                            <Label Content="Ім'я:"/>
+                            <TextBox x:Name="txtPropName" IsReadOnly="True"/>
+                            <Label Content="Повний шлях:"/>
+                            <TextBox x:Name="txtPropFullPath" IsReadOnly="True"/>
+                            <Label Content="Тип:"/>
+                            <TextBox x:Name="txtPropType" IsReadOnly="True"/>
+                            <Label Content="Розмір (байт):"/>
+                            <TextBox x:Name="txtPropSize" IsReadOnly="True"/>
+                            <Label Content="Дата створення:"/>
+                            <TextBox x:Name="txtPropCreationTime" IsReadOnly="True"/>
+                            <Label Content="Дата останньої зміни:"/>
+                            <TextBox x:Name="txtPropLastWriteTime" IsReadOnly="True"/>
+                            <Label Content="Атрибути безпеки:"/>
+                            <TextBox x:Name="txtPropSecurityAttributes" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Height="60"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Перегляд тексту">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <!-- Для Edit/Save buttons -->
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="txtFileContentPreview" Grid.Row="0" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,0">
+                            <Button x:Name="btnEditFile" Content="Редагувати" Style="{StaticResource CommonButtonStyle}" Click="EditFile_Click" Margin="0,0,5,0" IsEnabled="False"/>
+                            <Button x:Name="btnSaveEditedFile" Content="Зберегти зміни" Style="{StaticResource CommonButtonStyle}" Click="SaveEditedFile_Click" IsEnabled="False"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Перегляд зображення">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Image x:Name="imgFilePreview" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Border>
+    </Grid>
+</Window>
